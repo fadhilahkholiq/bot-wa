@@ -5,7 +5,8 @@ const axios = require("axios");
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
-    headless: true, args: ['--no-sandbox'],
+	headless: true,
+    args: ['--no-sandbox'],
 	executablePath: '/usr/bin/chromium-browser',
   }
 });
@@ -49,20 +50,16 @@ function sendPeriodicMessage(groupId) {
   });
 }
 
-async function downloadVideo(url) {
+async function downloadVideo(url, message) {
   try {
     const response = await axios.get(`https://quotes-islami.run-us-west2.goorm.site/tiktok_api.php?url=${url}`);
-	const responseData = response.data;
-	if (responseData.success) {
-		const downloadUrls = responseData.url;
-		const mediatok = await MessageMedia.fromUrl(downloadUrls);
-		await client.sendMessage(message.from, mediatok);
-		console.log('[+] Video has been successfully downloaded!');
-	} else {
-		console.error('[+] Video download failed!');
-	}
+	const downloadUrls = response.data.url;
+	const videonya = await axios.get(downloadUrls, {responseType: 'arraybuffer'});
+	const mediatok = new MessageMedia('video/mp4', videonya.data, 'video.mp4');
+	await client.sendMessage(message.from, mediatok);
+	console.log('[+] Video has been successfully sent!');
   } catch (error) {
-    	console.error('[+] Error accessing API!');
+    console.error('[+] Error accessing API!', error.message);
   }
 }
 
@@ -70,7 +67,7 @@ client.on('message', async (message) => {
   if (message.body.startsWith('.tiktok')) {
     const url = message.body.split(' ')[1];
     if (url) {
-      await downloadVideo(url);
+      await downloadVideo(url, message);
     } else {
       message.reply('Invalid usage. Please provide a video URL.');
     }
