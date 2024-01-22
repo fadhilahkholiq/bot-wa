@@ -1,12 +1,11 @@
 const qrcode = require("qrcode-terminal");
-const { Client, LocalAuth } = require("whatsapp-web.js");
-const { MessageMedia } = require('whatsapp-web.js');
+const { Client, LocalAuth, MessageMedia } = require("whatsapp-web.js");
 const axios = require("axios");
 
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
-    args: ['--no-sandbox'],
+    headless: true, args: ['--no-sandbox'],
 	executablePath: '/usr/bin/chromium-browser',
   }
 });
@@ -50,21 +49,20 @@ function sendPeriodicMessage(groupId) {
   });
 }
 
-async function downloadVideo(url, chat) {
+async function downloadVideo(url) {
   try {
-    const response = await axios.get(`https://api.tik.fail/api/grab?url=${url}`, {maxRedirects: 5, validateStatus: (status) => {return status >= 200 && status < 300;}, });
-    const responseData = response.data;
-    if (responseData.success) {
-      const downloadUrls = responseData.download.video;
-      const selectedFormat = downloadUrls.NoWM1080;
-	  const media = await MessageMedia.fromUrl(selectedFormat.url);
-      await client.sendMessage(message.from, media);
-      console.log('[+] Video has been successfully downloaded!');
-    } else {
-      console.error('[+] Video download failed. API response!');
-    }
+    const response = await axios.get(`https://quotes-islami.run-us-west2.goorm.site/tiktok_api.php?url=${url}`);
+	const responseData = response.data;
+	if (responseData.success) {
+		const downloadUrls = responseData.url;
+		const mediatok = await MessageMedia.fromUrl(downloadUrls);
+		await client.sendMessage(message.from, mediatok);
+		console.log('[+] Video has been successfully downloaded!');
+	} else {
+		console.error('[+] Video download failed!');
+	}
   } catch (error) {
-    console.error('[+] Error downloading video!', error.message);
+    	console.error('[+] Error accessing API!');
   }
 }
 
@@ -72,7 +70,7 @@ client.on('message', async (message) => {
   if (message.body.startsWith('.tiktok')) {
     const url = message.body.split(' ')[1];
     if (url) {
-      await downloadVideo(url, message.chat);
+      await downloadVideo(url);
     } else {
       message.reply('Invalid usage. Please provide a video URL.');
     }
