@@ -5,9 +5,9 @@ const axios = require("axios");
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
-	headless: true,
-    	args: ['--no-sandbox'],
-	executablePath: '/usr/bin/chromium-browser',
+    headless: true,
+    args: ['--no-sandbox'],
+    executablePath: '/usr/bin/chromium-browser',
   }
 });
 
@@ -58,7 +58,7 @@ async function downloadVideo(url, message) {
 	await client.sendMessage(message.from, mediatok);
 	console.log('[+] Video has been successfully sent!');
   } catch (error) {
-    console.error('[+] Error accessing API!', error.message);
+    	console.error('[+] Error accessing API!');
   }
 }
 
