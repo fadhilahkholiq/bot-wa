@@ -6,8 +6,8 @@ const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
 	headless: true,
-    args: ['--no-sandbox'],
-	executablePath: '/usr/bin/chromium-browser',
+    	args: ['--no-sandbox'],
+	executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   }
 });
 
@@ -53,13 +53,12 @@ function sendPeriodicMessage(groupId) {
 async function downloadVideo(url, message) {
   try {
     const response = await axios.get(`https://quotes-islami.run-us-west2.goorm.site/tiktok_api.php?url=${url}`);
-	const downloadUrls = response.data.url;
-	const videonya = await axios.get(downloadUrls, {responseType: 'arraybuffer'});
-	const mediatok = new MessageMedia('video/mp4', videonya.data, 'video.mp4');
+	const downloadUrls = response.data.video;
+	const mediatok = await MessageMedia.fromUrl(downloadUrls);
 	await client.sendMessage(message.from, mediatok);
 	console.log('[+] Video has been successfully sent!');
   } catch (error) {
-    console.error('[+] Error accessing API!');
+    console.error('[+] Error accessing API!', error.message);
   }
 }
 
