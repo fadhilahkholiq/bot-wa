@@ -60,27 +60,163 @@ function sendPeriodicMessage(groupId) {
 async function downloadVideo(url, message) {
 	try {
 		const response = await axios.get(`https://quotes-islami.run-us-west2.goorm.site/tiktok_api.php?url=${url}`);
-		const ttname = response.data.name;
-		const ttname2 = ttname.toUpperCase();
-		const tturl = response.data.url;
-		const response2 = await axios.get(`https://ulvis.net/API/write/get?url=${tturl}`);
-		const finalurl = response2.data.data.url;
-		const messageContent = `⬇ *${ttname2}*\r\n\r\n${finalurl}`;
-		await client.sendMessage(message.from, messageContent);
-		console.log('[+] Video link successfully sent!');
+		if (response.data) {
+			const response2 = await axios.get(`https://api.lolhuman.xyz/api/shortlink4?apikey=bd20a85773ccc8587cf4e30d&url=${encodeURIComponent(response.data.url)}`);
+			const finalurl = response2.data.result;
+			const messageContent = `⬇ *TIKTOK DOWNLOADER*\r\n\r\nLink Download:\r\n🔗 ${finalurl}`;
+			await client.sendMessage(message.from, messageContent);
+			console.log('[+] TikTok link successfully sent!');
+		}
 	} catch (error) {
-		console.error('[+] Error accessing API!');
+		console.error('[+] Error accessing API!', error.message);
 	}
 }
 
 client.on('message', async (message) => {
-	if (message.body.startsWith('.tiktok')) {
+	if (message.body.startsWith('.tt')) {
 		const url = message.body.split(' ')[1];
 		if (url) {
 			await downloadVideo(url, message);
 		} else {
 			message.reply('Tolong beri tautan videonya juga.');
 		}
+	}
+});
+
+async function downloadIG(url, message) {
+	try {
+		const response = await axios.get(`https://api.lolhuman.xyz/api/instagram?apikey=bd20a85773ccc8587cf4e30d&url=${url}`);
+		if (response.data) {
+			const response2 = await axios.get(`https://api.lolhuman.xyz/api/shortlink4?apikey=bd20a85773ccc8587cf4e30d&url=${encodeURIComponent(response.data.result[0])}`);
+			const finalurl = response2.data.result;
+			const messageContent = `⬇ *INSTAGRAM DOWNLOADER*\r\n\r\nLink Download:\r\n🔗 ${finalurl}`;
+			await client.sendMessage(message.from, messageContent);
+			console.log('[+] Instagram link successfully sent!');
+		}
+	} catch (error) {
+		console.error('[+] Error accessing API!', error.message);
+	}
+}
+
+client.on('message', async (message) => {
+	if (message.body.startsWith('.ig')) {
+		const url = message.body.split(' ')[1];
+		if (url) {
+			await downloadIG(url, message);
+		} else {
+			message.reply('Tolong beri tautan videonya juga.');
+		}
+	}
+});
+
+async function downloadFB(url, message) {
+	try {
+		const response = await axios.get(`https://api.lolhuman.xyz/api/facebook?apikey=bd20a85773ccc8587cf4e30d&url=${url}`);
+		if (response.data) {
+			const response2 = await axios.get(`https://api.lolhuman.xyz/api/shortlink4?apikey=bd20a85773ccc8587cf4e30d&url=${encodeURIComponent(response.data.result[0])}`);
+			const finalurl = response2.data.result;
+			const messageContent = `⬇ *FACEBOOK DOWNLOADER*\r\n\r\nLink Download:\r\n🔗 ${finalurl}`;
+			await client.sendMessage(message.from, messageContent);
+			console.log('[+] Facebook link successfully sent!');
+		}
+	} catch (error) {
+		console.error('[+] Error accessing API!', error.message);
+	}
+}
+
+client.on('message', async (message) => {
+	if (message.body.startsWith('.fb')) {
+		const url = message.body.split(' ')[1];
+		if (url) {
+			await downloadFB(url, message);
+		} else {
+			message.reply('Tolong beri tautan videonya juga.');
+		}
+	}
+});
+
+async function downloadYT(url, message) {
+	try {
+		const response = await axios.get(`https://api.lolhuman.xyz/api/ytvideo2?apikey=bd20a85773ccc8587cf4e30d&url=${url}`);
+		if (response.data) {
+			const response2 = await axios.get(`https://api.lolhuman.xyz/api/shortlink4?apikey=bd20a85773ccc8587cf4e30d&url=${encodeURIComponent(response.data.result.link)}`);
+			const finalurl = response2.data.result;
+			const messageContent = `⬇ *YOUTUBE DOWNLOADER*\r\n\r\nLink Download:\r\n🔗 ${finalurl}`;
+			await client.sendMessage(message.from, messageContent);
+			console.log('[+] YouTube link successfully sent!');
+		}
+	} catch (error) {
+		console.error('[+] Error accessing API!', error.message);
+	}
+}
+
+client.on('message', async (message) => {
+	if (message.body.startsWith('.yt')) {
+		const url = message.body.split(' ')[1];
+		if (url) {
+			await downloadYT(url, message);
+		} else {
+			message.reply('Tolong beri tautan videonya juga.');
+		}
+	}
+});
+
+async function downloadTW(url, message) {
+	try {
+		const response = await axios.get(`https://api.lolhuman.xyz/api/twitter?apikey=bd20a85773ccc8587cf4e30d&url=${url}`);
+		if (response.data) {
+			const response2 = await axios.get(`https://api.lolhuman.xyz/api/shortlink4?apikey=bd20a85773ccc8587cf4e30d&url=${encodeURIComponent(response.data.result.media[0].url)}`);
+			const finalurl = response2.data.result;
+			const messageContent = `⬇ *TWITTER VIDEO DOWNLOADER*\r\n\r\nLink Download:\r\n🔗 ${finalurl}`;
+			await client.sendMessage(message.from, messageContent);
+			console.log('[+] Twitter link successfully sent!');
+		}
+	} catch (error) {
+		console.error('[+] Error accessing API!', error.message);
+	}
+}
+
+client.on('message', async (message) => {
+	if (message.body.startsWith('.tw')) {
+		const url = message.body.split(' ')[1];
+		if (url) {
+			await downloadTW(url, message);
+		} else {
+			message.reply('Tolong beri tautan videonya juga.');
+		}
+	}
+});
+
+async function downloadMF(url, message) {
+	try {
+		const response = await axios.get(`https://api.lolhuman.xyz/api/mediafire?apikey=bd20a85773ccc8587cf4e30d&url=${url}`);
+		if (response.data) {
+			const response2 = await axios.get(`https://api.lolhuman.xyz/api/shortlink4?apikey=bd20a85773ccc8587cf4e30d&url=${encodeURIComponent(response.data.result.link)}`);
+			const finalurl = response2.data.result;
+			const messageContent = `⬇ *MEDIAFIRE DOWNLOADER*\r\n\r\nLink Download:\r\n🔗 ${finalurl}`;
+			await client.sendMessage(message.from, messageContent);
+			console.log('[+] MediaFire link successfully sent!');
+		}
+	} catch (error) {
+		console.error('[+] Error accessing API!', error.message);
+	}
+}
+
+client.on('message', async (message) => {
+	if (message.body.startsWith('.mf')) {
+		const url = message.body.split(' ')[1];
+		if (url) {
+			await downloadMF(url, message);
+		} else {
+			message.reply('Tolong beri tautan videonya juga.');
+		}
+	}
+});
+
+client.on('message', async (message) => {
+	if (message.body === ".menu") {
+		const messageContent = `🍉 *JFLAVORS BOT*\r\n\r\n🦉 Fitur WhatsApp:\r\n*.sticker* (Buat Sticker)\r\n*.everyone* (Tag Member)\r\n\r\n🦉 Fitur Downloader:\r\n*.ig* (Instagram Post & Video)\r\n*.fb* (Facebook Video)\r\n*.yt* (YouTube Video)\r\n*.tt* (TikTok Video)\r\n*.tw* (Twitter Video)\r\n*.mf* (MediaFire)\r\n\r\n🦉 Donasi:\r\n*DANA* 085156819451 (Kholiq Fadhilah)`;
+		await client.sendMessage(message.from, messageContent);
 	}
 });
 
