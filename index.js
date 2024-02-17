@@ -32,7 +32,7 @@ async function scanAndSendPeriodicMessages() {
 
 client.on("ready", () => {
 	console.log("[+] This is JFlavors, bot is ready to go!");
-	const updateInterval = 10800000;
+	const updateInterval = 28800000;
 	setInterval(async () => {
 		await scanAndSendPeriodicMessages();
 	}, updateInterval);
@@ -59,9 +59,9 @@ function sendPeriodicMessage(groupId) {
 
 async function downloadVideo(url, message) {
 	try {
-		const response = await axios.get(`https://quotes-islami.run-us-west2.goorm.site/tiktok_api.php?url=${url}`);
+		const response = await axios.get(`https://api.lolhuman.xyz/api/tiktok?apikey=bd20a85773ccc8587cf4e30d&url=${url}`);
 		if (response.data) {
-			const response2 = await axios.get(`https://api.lolhuman.xyz/api/shortlink4?apikey=bd20a85773ccc8587cf4e30d&url=${encodeURIComponent(response.data.url)}`);
+			const response2 = await axios.get(`https://api.lolhuman.xyz/api/shortlink4?apikey=bd20a85773ccc8587cf4e30d&url=${encodeURIComponent(response.data.result.link)}`);
 			const finalurl = response2.data.result;
 			const messageContent = `⬇ *TIKTOK DOWNLOADER*\r\n\r\nLink Download:\r\n🔗 ${finalurl}`;
 			await client.sendMessage(message.from, messageContent);
@@ -187,35 +187,9 @@ client.on('message', async (message) => {
 	}
 });
 
-async function downloadMF(url, message) {
-	try {
-		const response = await axios.get(`https://api.lolhuman.xyz/api/mediafire?apikey=bd20a85773ccc8587cf4e30d&url=${url}`);
-		if (response.data) {
-			const response2 = await axios.get(`https://api.lolhuman.xyz/api/shortlink4?apikey=bd20a85773ccc8587cf4e30d&url=${encodeURIComponent(response.data.result.link)}`);
-			const finalurl = response2.data.result;
-			const messageContent = `⬇ *MEDIAFIRE DOWNLOADER*\r\n\r\nLink Download:\r\n🔗 ${finalurl}`;
-			await client.sendMessage(message.from, messageContent);
-			console.log('[+] MediaFire link successfully sent!');
-		}
-	} catch (error) {
-		console.error('[+] Error accessing API!', error.message);
-	}
-}
-
-client.on('message', async (message) => {
-	if (message.body.startsWith('.mf')) {
-		const url = message.body.split(' ')[1];
-		if (url) {
-			await downloadMF(url, message);
-		} else {
-			message.reply('Tolong beri tautan videonya juga.');
-		}
-	}
-});
-
 client.on('message', async (message) => {
 	if (message.body === ".menu") {
-		const messageContent = `🍉 *JFLAVORS BOT*\r\n\r\n🦉 Fitur WhatsApp:\r\n*.sticker* (Buat Sticker)\r\n*.everyone* (Tag Member)\r\n\r\n🦉 Fitur Downloader:\r\n*.ig* (Instagram Post & Video)\r\n*.fb* (Facebook Video)\r\n*.yt* (YouTube Video)\r\n*.tt* (TikTok Video)\r\n*.tw* (Twitter Video)\r\n*.mf* (MediaFire)\r\n\r\n🦉 Donasi:\r\n*DANA* 085156819451 (Kholiq Fadhilah)`;
+		const messageContent = `🍉 *JFLAVORS BOT*\r\n\r\n🦉 Fitur WhatsApp:\r\n*.sticker* (Buat Sticker)\r\n*.everyone* (Tag Member)\r\n\r\n🦉 Fitur Downloader:\r\n*.ig* (Instagram Post & Video)\r\n*.fb* (Facebook Video)\r\n*.yt* (YouTube Video)\r\n*.tt* (TikTok Video)\r\n*.tw* (Twitter Video)\r\n\r\n🦉 Donasi:\r\n*DANA* 085156819451 (Kholiq Fadhilah)`;
 		await client.sendMessage(message.from, messageContent);
 	}
 });
@@ -245,6 +219,14 @@ client.on("message", async (msg) => {
 			mentions
 		});
 	}
+});
+
+client.on('message', async (message) => {
+    if (message.body === '.quit') {
+        const chat = await message.getChat();
+        await chat.leave();
+        console.log('[+] Left the group as per user request.');
+    }
 });
 
 client.initialize();
