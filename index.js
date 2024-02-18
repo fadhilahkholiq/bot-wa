@@ -41,7 +41,7 @@ client.on("ready", () => {
 function sendPeriodicMessage(groupId) {
 	client.getChatById(groupId).then(async (groupChat) => {
 			try {
-				const apiResponse = await axios.get("https://quotes-islami.run-us-west2.goorm.site/quotes_api.php");
+				const apiResponse = await axios.get("https://qutipan.000webhostapp.com/");
 				const quoteContent = apiResponse.data.quotes;
 				const quoteAuthor = apiResponse.data.author;
 				const quoteTitle = apiResponse.data.kitab;
@@ -68,7 +68,7 @@ async function downloadVideo(url, message) {
 			console.log('[+] TikTok link successfully sent!');
 		}
 	} catch (error) {
-		console.error('[+] Error accessing API!', error.message);
+		console.error('[+] Error accessing API!');
 	}
 }
 
@@ -94,7 +94,7 @@ async function downloadIG(url, message) {
 			console.log('[+] Instagram link successfully sent!');
 		}
 	} catch (error) {
-		console.error('[+] Error accessing API!', error.message);
+		console.error('[+] Error accessing API!');
 	}
 }
 
@@ -120,7 +120,7 @@ async function downloadFB(url, message) {
 			console.log('[+] Facebook link successfully sent!');
 		}
 	} catch (error) {
-		console.error('[+] Error accessing API!', error.message);
+		console.error('[+] Error accessing API!');
 	}
 }
 
@@ -146,7 +146,7 @@ async function downloadYT(url, message) {
 			console.log('[+] YouTube link successfully sent!');
 		}
 	} catch (error) {
-		console.error('[+] Error accessing API!', error.message);
+		console.error('[+] Error accessing API!');
 	}
 }
 
@@ -172,7 +172,7 @@ async function downloadTW(url, message) {
 			console.log('[+] Twitter link successfully sent!');
 		}
 	} catch (error) {
-		console.error('[+] Error accessing API!', error.message);
+		console.error('[+] Error accessing API!');
 	}
 }
 
@@ -189,7 +189,7 @@ client.on('message', async (message) => {
 
 client.on('message', async (message) => {
 	if (message.body === ".menu") {
-		const messageContent = `🍉 *JFLAVORS BOT*\r\n\r\n🦉 Fitur WhatsApp:\r\n*.sticker* (Buat Sticker)\r\n*.everyone* (Tag Member)\r\n\r\n🦉 Fitur Downloader:\r\n*.ig* (Instagram Post & Video)\r\n*.fb* (Facebook Video)\r\n*.yt* (YouTube Video)\r\n*.tt* (TikTok Video)\r\n*.tw* (Twitter Video)\r\n\r\n🦉 Donasi:\r\n*DANA* 085156819451 (Kholiq Fadhilah)`;
+		const messageContent = `🍉 *FRNDLY BOT*\r\n\r\n🦉 Fitur WhatsApp:\r\n*.sticker* (Buat Sticker)\r\n*.everyone* (Tag Member)\r\n\r\n🦉 Fitur Downloader:\r\n*.ig* (Instagram Post & Video)\r\n*.fb* (Facebook Video)\r\n*.yt* (YouTube Video)\r\n*.tt* (TikTok Video)\r\n*.tw* (Twitter Video)\r\n\r\n🦉 Donasi:\r\n*DANA* 085156819451 (Kholiq Fadhilah)`;
 		await client.sendMessage(message.from, messageContent);
 	}
 });
