@@ -41,7 +41,7 @@ client.on("ready", () => {
 function sendPeriodicMessage(groupId) {
 	client.getChatById(groupId).then(async (groupChat) => {
 			try {
-				const apiResponse = await axios.get("https://qutipan.000webhostapp.com/");
+				const apiResponse = await axios.get("http://flvrs.whf.bz/");
 				const quoteContent = apiResponse.data.quotes;
 				const quoteAuthor = apiResponse.data.author;
 				const quoteTitle = apiResponse.data.kitab;
